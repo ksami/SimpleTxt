@@ -81,11 +81,12 @@ public class EditTextActivity extends Activity {
 			BufferedReader readStream = new BufferedReader(new FileReader(getFilesDir()+File.separator+filePath));
 			
 			EditText textContent=(EditText) findViewById(R.id.edit_text);
-			String lineToDisplay;
-			while((lineToDisplay = readStream.readLine()) != null) {
-				textContent.append(lineToDisplay);
+			int charRead;
+			String contentToDisplay="";
+			while((charRead = readStream.read()) != -1) {
+				contentToDisplay+=(char)charRead;
 			}
-			
+			textContent.append(contentToDisplay);
 			readStream.close();
 		}
 		catch (FileNotFoundException e) {
