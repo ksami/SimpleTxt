@@ -2,6 +2,7 @@ package com.ksami.simpletxt;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
@@ -43,6 +44,9 @@ public class MainActivity extends Activity {
 			return true;
 		case R.id.action_new_file:
 			// TODO stub
+			// launch message box asking to name new file
+			DialogFragment newFragment = new NewFileNameDialogFragment();
+		    newFragment.show(getFragmentManager(), "newfile");
 		}
 		return super.onOptionsItemSelected(item);
 	}
