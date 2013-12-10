@@ -2,6 +2,8 @@ package com.ksami.simpletxt;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -12,6 +14,7 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -20,11 +23,13 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements NewFileNameDialogFragment.NewFileNameDialogListener {
 	
 	public static final String FILENAME = "com.ksami.simpletxt.FILENAME";
+	private List<String> fileList = new ArrayList<String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		listDirectory(getFilesDir());
 	}
 
 	@Override
@@ -56,6 +61,20 @@ public class MainActivity extends Activity implements NewFileNameDialogFragment.
 		return super.onOptionsItemSelected(item);
 	}
 	
+	public void listDirectory(File rootDir) {
+		File[] files = rootDir.listFiles();
+	     fileList.clear();
+	     for (File file : files){
+	      fileList.add(file.getName());  // TODO remove .txt extension
+	     }
+	      
+	     ArrayAdapter<String> directoryList = new ArrayAdapter<String>(this, R.layout.list_item, R.id.textViewItem, fileList);
+	     ListView listViewItems = (ListView) this.findViewById(R.id.list_view);
+	     listViewItems.setAdapter(directoryList);
+	     //setListAdapter(directoryList); 
+	}
+	
+	/*
 	public void list_item1_click(View view) {
 		// Start next activity for editing indicated text file
 		Intent intent = new Intent(this, EditTextActivity.class);
@@ -81,6 +100,7 @@ public class MainActivity extends Activity implements NewFileNameDialogFragment.
     	//Start activity specified by intent
     	startActivity(intent);
 	}
+	*/
 
 	@Override
 	public void onDialogPositiveClick(DialogFragment dialog) {
