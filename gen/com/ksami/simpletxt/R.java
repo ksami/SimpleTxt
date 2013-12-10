@@ -29,7 +29,7 @@ public final class R {
         public static final int edit_text=0x7f080000;
         public static final int list_item1=0x7f080001;
         public static final int list_item2=0x7f080002;
-        public static final int newFileName=0x7f080003;
+        public static final int user_file_name=0x7f080003;
     }
     public static final class layout {
         public static final int activity_edit_text=0x7f030000;

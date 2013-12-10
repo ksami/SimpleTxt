@@ -5,10 +5,9 @@
     android:orientation="vertical" >
     
     <EditText
-        android:id="@+id/newFileName"
+        android:id="@+id/user_file_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="fill_vertical"
         android:hint="@string/new_file_name" />"
 
 </LinearLayout>

@@ -1,7 +1,11 @@
 package com.ksami.simpletxt;
 
+import java.io.File;
+import java.io.IOException;
+
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.support.v4.app.NavUtils;
@@ -9,10 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements NewFileNameDialogFragment.NewFileNameDialogListener {
 	
 	public static final String FILENAME = "com.ksami.simpletxt.FILENAME";
 
@@ -75,6 +80,38 @@ public class MainActivity extends Activity {
     	
     	//Start activity specified by intent
     	startActivity(intent);
+	}
+
+	@Override
+	public void onDialogPositiveClick(DialogFragment dialog) {
+		//Create new file
+		Dialog dialogView = dialog.getDialog();
+		EditText textBox = (EditText) dialogView.findViewById(R.id.user_file_name);
+		String newFileName = textBox.getText().toString();
+		File newFile = new File(getFilesDir(), newFileName + ".txt");
+		if(!newFile.exists()) {
+			try {
+				newFile.createNewFile();
+			}
+			catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//Create intent
+		Intent intent = new Intent(this, EditTextActivity.class);
+		
+		//Attach data to pass to next activity to intent object
+    	intent.putExtra(FILENAME, newFileName);
+    	
+    	//Start activity specified by intent
+    	startActivity(intent);
+	}
+
+	@Override
+	public void onDialogNegativeClick(DialogFragment dialog) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
