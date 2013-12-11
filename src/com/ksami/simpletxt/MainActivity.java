@@ -53,25 +53,25 @@ public class MainActivity extends Activity implements NewFileNameDialogFragment.
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		case R.id.action_new_file:
-			// TODO stub
-			// launch message box asking to name new file
 			DialogFragment newFragment = new NewFileNameDialogFragment();
 		    newFragment.show(getFragmentManager(), "newfile");
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
+	// List all the files in the directory
 	public void listDirectory(File rootDir) {
 		File[] files = rootDir.listFiles();
-	     fileList.clear();
-	     for (File file : files){
-	      fileList.add(file.getName());  // TODO remove .txt extension
-	     }
-	      
-	     ArrayAdapter<String> directoryList = new ArrayAdapter<String>(this, R.layout.list_item, R.id.textViewItem, fileList);
-	     ListView listViewItems = (ListView) this.findViewById(R.id.list_view);
-	     listViewItems.setAdapter(directoryList);
-	     //setListAdapter(directoryList); 
+		fileList.clear();
+		for (File file : files){
+			// Add only the file name without the .txt extension
+			String fileName = file.getName().replace(".txt", "");
+			fileList.add(fileName);
+		}
+		  
+		ArrayAdapter<String> directoryList = new ArrayAdapter<String>(this, R.layout.list_item, R.id.textViewItem, fileList);
+		ListView listViewItems = (ListView) this.findViewById(R.id.list_view);
+		listViewItems.setAdapter(directoryList);
 	}
 	
 	/*
