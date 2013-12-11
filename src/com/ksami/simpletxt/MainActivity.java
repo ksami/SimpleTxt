@@ -72,6 +72,8 @@ public class MainActivity extends Activity implements NewFileNameDialogFragment.
 		ArrayAdapter<String> directoryList = new ArrayAdapter<String>(this, R.layout.list_item, R.id.textViewItem, fileList);
 		ListView listViewItems = (ListView) this.findViewById(R.id.list_view);
 		listViewItems.setAdapter(directoryList);
+		listViewItems.setOnItemClickListener(new ListViewItemClickListener());
+		// TODO listViewItems.setOnItemLongClickListener(listener);
 	}
 	
 	/*
@@ -87,12 +89,11 @@ public class MainActivity extends Activity implements NewFileNameDialogFragment.
     	//Start activity specified by intent
     	startActivity(intent);
 	}
+	*/
 	
-	public void list_item2_click(View view) {
+	public void startEditTextActivity(String fileName) {
 		// Start next activity for editing indicated text file
 		Intent intent = new Intent(this, EditTextActivity.class);
-		Button listItem = (Button) findViewById(R.id.list_item2);
-		String fileName = listItem.getText().toString();
 		
     	//Attach data to pass to next activity to intent object
     	intent.putExtra(FILENAME, fileName);
@@ -100,7 +101,7 @@ public class MainActivity extends Activity implements NewFileNameDialogFragment.
     	//Start activity specified by intent
     	startActivity(intent);
 	}
-	*/
+	
 
 	@Override
 	public void onDialogPositiveClick(DialogFragment dialog) {
@@ -117,21 +118,13 @@ public class MainActivity extends Activity implements NewFileNameDialogFragment.
 				e.printStackTrace();
 			}
 		}
-		
-		//Create intent
-		Intent intent = new Intent(this, EditTextActivity.class);
-		
-		//Attach data to pass to next activity to intent object
-    	intent.putExtra(FILENAME, newFileName);
-    	
-    	//Start activity specified by intent
-    	startActivity(intent);
+		//Start editing the file
+		startEditTextActivity(newFileName);
 	}
 
 	@Override
 	public void onDialogNegativeClick(DialogFragment dialog) {
 		// TODO Auto-generated method stub
-		
 	}
 
 }
