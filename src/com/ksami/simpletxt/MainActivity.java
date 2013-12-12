@@ -24,6 +24,7 @@ public class MainActivity extends Activity implements NewFileNameDialogFragment.
 	
 	public static final String FILENAME = "com.ksami.simpletxt.FILENAME";
 	private List<String> fileList = new ArrayList<String>();
+	public SelectionAdapter directoryList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +70,15 @@ public class MainActivity extends Activity implements NewFileNameDialogFragment.
 			fileList.add(fileName);
 		}
 		  
-		ArrayAdapter<String> directoryList = new ArrayAdapter<String>(this, R.layout.list_item, R.id.textViewItem, fileList);
+		directoryList = new SelectionAdapter(this, R.layout.list_item, R.id.textViewItem, fileList);
 		ListView listViewItems = (ListView) this.findViewById(R.id.list_view);
 		listViewItems.setAdapter(directoryList);
 		listViewItems.setOnItemClickListener(new ListViewItemClickListener());
-		// TODO listViewItems.setOnItemLongClickListener(listener);
+		listViewItems.setOnItemLongClickListener(new ListViewItemLongClickListener());
+		// TODO use contextual action mode
+		// http://developer.android.com/guide/topics/ui/menus.html#CAB
+		listViewItems.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+		listViewItems.setMultiChoiceModeListener(new ListViewMultiChoiceModeListener(directoryList));
 	}
 	
 	/*

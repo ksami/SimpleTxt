@@ -13,5 +13,7 @@
     <string name="create_new_file">Name of new file</string>
     <string name="set_new_name">Create</string>
     <string name="new_file_name">New file name</string>
+    <string name="action_rename_file">Rename file</string>
+    <string name="action_delete_file">Delete file</string>
 
 </resources>
