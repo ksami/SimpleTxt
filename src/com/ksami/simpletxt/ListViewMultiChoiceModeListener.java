@@ -2,8 +2,11 @@ package com.ksami.simpletxt;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import android.view.ActionMode;
@@ -53,30 +56,44 @@ public class ListViewMultiChoiceModeListener implements MultiChoiceModeListener 
         }
     }
     
+    // BUG does not refresh list
     private void deleteSelected(SelectionAdapter mSelection) {
-    	Set<Integer> checkedItems = mSelection.getCurrentCheckedPosition();
+		MainActivity main = (MainActivity) mSelection.getContext();
+    	Object[] arr = mSelection.getCurrentCheckedPosition().toArray();
     	
-    	assert(checkedItems.isEmpty() == false);
+    	// Ensure list of checked items is not empty
+    	assert(arr.length != 0);
     	
-    	Iterator<Integer> iter =checkedItems.iterator();
-    	while(iter.hasNext()) {
-    		int itemPosition = iter.next();
+    	Integer[] integerArray = Arrays.copyOf(arr, arr.length, Integer[].class);
+    	
+    	for(int i=0; i<integerArray.length; i++) {
+    		int itemPosition = integerArray[i];
     		try {
+    			String fileName = mSelection.getItem(itemPosition);
 	    		File fileToDelete = new File(mSelection.getContext().getFilesDir()+File.separator+mSelection.getItem(itemPosition)+".txt");
 	    		if(fileToDelete.delete()) {
+
+	    			List<String> files = main.fileList;
+	    			if(files.indexOf(fileName) == -1) {
+	    				Toast toast = Toast.makeText(mSelection.getContext(), "Cannot find file", Toast.LENGTH_SHORT);
+		    			toast.show();
+	    				throw new IOException();
+	    			}
 	    			Toast toast = Toast.makeText(mSelection.getContext(), "File deleted", Toast.LENGTH_SHORT);
 	    			toast.show();
 	    		}
 	    		else {
+	    			Toast toast = Toast.makeText(mSelection.getContext(), "Failed to delete", Toast.LENGTH_SHORT);
+	    			toast.show();
 	    			throw new IOException();
 	    		}
-	    		mSelection.removeSelection(itemPosition);
-	    		mSelection.notifyDataSetChanged();
     		}
     		catch(IOException e) {
     			e.printStackTrace();
     		}
+    		mSelection.removeSelection(itemPosition);
     	}
+		main.updateList(main.getFilesDir());
     }
 
     @Override

@@ -23,7 +23,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements NewFileNameDialogFragment.NewFileNameDialogListener {
 	
 	public static final String FILENAME = "com.ksami.simpletxt.FILENAME";
-	private List<String> fileList = new ArrayList<String>();
+	public List<String> fileList = new ArrayList<String>();
 	public SelectionAdapter directoryList;
 
 	@Override
@@ -62,6 +62,18 @@ public class MainActivity extends Activity implements NewFileNameDialogFragment.
 	
 	// List all the files in the directory
 	public void listDirectory(File rootDir) {
+		updateList(rootDir);
+		
+		ListView listViewItems = (ListView) this.findViewById(R.id.list_view);
+		listViewItems.setOnItemClickListener(new ListViewItemClickListener());
+		listViewItems.setOnItemLongClickListener(new ListViewItemLongClickListener());
+		listViewItems.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+		listViewItems.setMultiChoiceModeListener(new ListViewMultiChoiceModeListener(directoryList));
+	}
+	
+	// Update the list of files
+	public void updateList(File rootDir) {
+		ListView listViewItems = (ListView) this.findViewById(R.id.list_view);
 		File[] files = rootDir.listFiles();
 		fileList.clear();
 		for (File file : files){
@@ -71,14 +83,7 @@ public class MainActivity extends Activity implements NewFileNameDialogFragment.
 		}
 		  
 		directoryList = new SelectionAdapter(this, R.layout.list_item, R.id.textViewItem, fileList);
-		ListView listViewItems = (ListView) this.findViewById(R.id.list_view);
 		listViewItems.setAdapter(directoryList);
-		listViewItems.setOnItemClickListener(new ListViewItemClickListener());
-		listViewItems.setOnItemLongClickListener(new ListViewItemLongClickListener());
-		// TODO use contextual action mode
-		// http://developer.android.com/guide/topics/ui/menus.html#CAB
-		listViewItems.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-		listViewItems.setMultiChoiceModeListener(new ListViewMultiChoiceModeListener(directoryList));
 	}
 	
 	/*
