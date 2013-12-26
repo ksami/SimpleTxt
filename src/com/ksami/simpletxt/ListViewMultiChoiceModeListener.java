@@ -19,6 +19,7 @@ import android.widget.Toast;
 // Implements contextual action bar for rename and delete
 public class ListViewMultiChoiceModeListener implements MultiChoiceModeListener {
 	private SelectionAdapter mSelection;
+	private static int numItemsSelected=0;
 	
 	ListViewMultiChoiceModeListener(SelectionAdapter directoryList){
 		super();
@@ -31,11 +32,13 @@ public class ListViewMultiChoiceModeListener implements MultiChoiceModeListener 
         // such as update the title in the CAB
 		if(checked) {
 			mSelection.setNewSelection(position, checked);
+			numItemsSelected++;
 		}
 		else {
 			mSelection.removeSelection(position);
+			numItemsSelected--;
 		}
-		mode.setTitle("pos is " + position + ", id is " + id);
+		mode.setTitle(numItemsSelected + " items selected");
     }
 
     @Override
@@ -45,10 +48,16 @@ public class ListViewMultiChoiceModeListener implements MultiChoiceModeListener 
             case R.id.action_delete:
             	deleteSelected(mSelection);
                 mSelection.clearSelection();
+                
+                numItemsSelected=0;
+                
                 mode.finish(); // Action picked, so close the CAB
                 return true;
             case R.id.action_rename:
                 // TODO renameItem();
+            	
+                numItemsSelected=0;
+                
                 mode.finish(); // Action picked, so close the CAB
                 return true;
             default:
@@ -56,7 +65,6 @@ public class ListViewMultiChoiceModeListener implements MultiChoiceModeListener 
         }
     }
     
-    // BUG does not refresh list
     private void deleteSelected(SelectionAdapter mSelection) {
 		MainActivity main = (MainActivity) mSelection.getContext();
     	Object[] arr = mSelection.getCurrentCheckedPosition().toArray();

@@ -46,10 +46,10 @@ public class SelectionAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = super.getView(position, convertView, parent);//let the adapter handle setting up the row views
-        v.setBackgroundColor(v.getResources().getColor(android.R.color.background_light)); //default color
+        v.setBackgroundColor(0xffcfcfcf); //default color
          
         if (mSelection.get(position) != null) {
-            v.setBackgroundColor(v.getResources().getColor(android.R.color.holo_blue_light));// this is a selected position so make it red
+            v.setBackgroundColor(0xff999999);// this is a selected position so make it blue
         }
         return v;
     }
