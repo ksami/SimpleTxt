@@ -38,6 +38,13 @@ public class EditTextActivity extends Activity {
 		
 		readFromFile();
 	}
+	
+	@Override
+	// When this activity is destroyed
+	protected void onPause() {
+		writeToFile();
+		super.onPause();
+	}
 
 	/**
 	 * Set up the {@link android.app.ActionBar}.

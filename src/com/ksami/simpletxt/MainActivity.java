@@ -134,7 +134,7 @@ public class MainActivity extends Activity implements NewFileNameDialogFragment.
 
 	@Override
 	public void onDialogNegativeClick(DialogFragment dialog) {
-		// TODO Auto-generated method stub
+		//Do nothing
 	}
 
 }

@@ -6,7 +6,8 @@
         android:id="@+id/edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="bottom"
+        android:gravity="top"
+        android:layout_gravity="fill_vertical"
         android:hint="@string/no_data" />
 
 </LinearLayout>
